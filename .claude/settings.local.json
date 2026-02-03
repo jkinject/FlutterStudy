@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter create:*)",
+      "Bash(brew --version:*)",
+      "Bash(brew install:*)",
+      "Bash(flutter --version:*)",
+      "Bash(flutter pub add:*)",
+      "Bash(flutter run:*)",
+      "Bash(flutter doctor:*)",
+      "Bash(sdkmanager:*)",
+      "Bash($ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager:*)",
+      "Bash(echo:*)",
+      "Bash(export ANDROID_HOME=~/Library/Android/sdk)",
+      "Bash(yes:*)",
+      "Bash(export ANDROID_HOME=\"$HOME/Library/Android/sdk\")",
+      "Bash(ANDROID_HOME=\"$HOME/Library/Android/sdk\")",
+      "Bash(/bin/sh:*)",
+      "Bash(export ANDROID_HOME=\"/Users/tim/Library/Android/sdk\")",
+      "Bash(/Users/tim/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=\"/Users/tim/Library/Android/sdk\" --licenses)",
+      "Bash(flutter build:*)",
+      "Bash(flutter devices:*)",
+      "Bash(flutter install:*)"
+    ]
+  }
+}
