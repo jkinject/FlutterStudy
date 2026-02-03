@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:webview_flutter/webview_flutter.dart';
+
+import 'coinpan_web.dart' if (dart.library.io) 'coinpan_native.dart' as platform;
 
 void main() {
   runApp(const MyApp());
@@ -87,6 +91,28 @@ class _BtcPricePageState extends State<BtcPricePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('BTC Price')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.orange),
+              child: Text('메뉴', style: TextStyle(color: Colors.white, fontSize: 24)),
+            ),
+            ListTile(
+              leading: const Icon(Icons.forum),
+              title: const Text('Coinpan'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CoinpanPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,6 +148,45 @@ class _BtcPricePageState extends State<BtcPricePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CoinpanPage extends StatefulWidget {
+  const CoinpanPage({super.key});
+
+  @override
+  State<CoinpanPage> createState() => _CoinpanPageState();
+}
+
+class _CoinpanPageState extends State<CoinpanPage> {
+  late final WebViewController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!kIsWeb) {
+      _controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..loadRequest(Uri.parse('https://coinpan.com'));
+    } else {
+      _controller = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Coinpan'),
+      ),
+      body: kIsWeb
+          ? platform.buildCoinpanWebView()
+          : WebViewWidget(controller: _controller!),
     );
   }
 }
